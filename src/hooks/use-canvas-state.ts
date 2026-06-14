@@ -11,6 +11,13 @@ export function useCanvasState(themeId: string, initialCards: TargetCard[]) {
   const syncTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const revealCard = useCallback((cardId: string) => {
+    try {
+      const audio = new Audio("/correct.mp3");
+      audio.play().catch((e) => console.warn("Audio playback failed:", e));
+    } catch (error) {
+      console.warn("Audio creation failed:", error);
+    }
+
     revealedIdsRef.current.add(cardId);
     setCards((prev) =>
       prev.map((card) =>
